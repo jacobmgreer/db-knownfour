@@ -24,7 +24,7 @@ jobs:
           extra-packages: |
             any::tidyverse
             any::arrow
-      - name: "Known Four Script"
+      - name: "Known Fours"
         run: Rscript 'R/runner.R'
       - name: Commit files
         run: |

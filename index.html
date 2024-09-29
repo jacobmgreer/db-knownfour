@@ -1,0 +1,87 @@
+<script src="https://jacobmgreer.github.io/NickelodeonAndDimed/js/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="https://jacobmgreer.github.io/NickelodeonAndDimed/js/d3.v4.min.js"></script>
+<link rel="stylesheet" href="https://jacobmgreer.github.io/NickelodeonAndDimed/js/bootstrap/css/bootstrap.min.css">
+ 
+<style>
+figure {
+    height: 80px;
+    width: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;}
+figure div {
+    height: 1px;
+    width: 1px;
+    background-color: #e2b634;
+    border-radius: 50%;}
+figure figcaption {
+    text-align: center;
+}
+span.isadult {
+    background-color: rgb(179, 22, 77);}
+</style>
+
+<script type="text/javascript" charset="utf-8">
+    var tabulate = function (data,columns) {
+        var recents = d3.select('#rows')
+            .selectAll('tr')
+            .data(data)
+            .enter()
+            .append('tr')
+
+        var nominee = recents.selectAll('td')
+            .data(function (row) {
+                return columns.map(function (column) {
+                    return {
+                    column: column,
+                    value: row[column]
+                    }
+                })
+            })
+            .enter()
+            .append('td')
+            .html(function(d){
+                if (["people", "credits"].includes(d.column)) {
+                    return "<figure class=figure><div style=\"zoom: calc(" + d.value + "/150000);\"></div><figcaption class='figure-caption'>" + d.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "</figcaption></figure>"
+                }
+                else if (d.column === "anyAdult" & d.value != 0) {
+                    return d.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "<div><span class=isadult style=\"zoom: calc(" + d.value + "/5000);\"></span></div>"
+                }
+                else if (d.column === "Num.Votes") {
+                    return d.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }
+                else {
+                    return d.value
+                }
+            })
+    }
+
+d3.csv('https://raw.githubusercontent.com/jacobmgreer/db-knownfour/refs/heads/main/knownfours.csv',function (data) {
+  var data = data.filter(element => element.content === "Summary")
+  var columns = ['knownForProfession', 'people', 'credits', 'minReleaseYear', 'maxReleaseYear', 'anyAdult']
+  tabulate(data,columns)
+})
+</script>
+
+  <div class="container-fluid">
+    <br/><br/><br/>
+    <h1 class="display-5 text-center">Known Fours</h1>
+    <br/>
+    <div style="margin-top:25px;">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Profession</th>
+            <th scope="col">People</th>
+            <th scope="col">Credits</th>
+            <th scope="col">minReleaseYear</th>
+            <th scope="col">maxReleaseYear</th>
+            <th scope="col">isAdult</th>
+          </tr>
+        </thead>
+        <tbody id="rows">
+        </tbody>
+      </table>
+      <br/><br/>
+    </div>
+  </div>
