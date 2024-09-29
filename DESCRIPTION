@@ -1,0 +1,7 @@
+Package: Known Four
+Title: Compile Known Four
+Version: 1.0.0
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.0.0
