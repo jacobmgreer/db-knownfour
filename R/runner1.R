@@ -153,7 +153,7 @@ message(format(Sys.time(), '%H:%M:%S'), " - ", "Batched KF4 Title Sets")
 
 rm(list=ls())
 
-for (i in list.files("basics/KF4", pattern = "*.parquet", full.names = T)) {
+for (i in list.files("KF4/titles", pattern = "*.parquet", full.names = T)) {
   write_parquet(
     read_parquet(i) %>%
       arrange(iYear, nconst) %>%
