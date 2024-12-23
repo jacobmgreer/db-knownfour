@@ -30,7 +30,7 @@ jobs:
         uses: adityak74/google-drive-upload-git-action@main
         with:
           credentials: ${{ secrets.DRIVE_CREDENTIALS }}
-          filename: "KF4/**"
+          filename: "KF4/*/*"
           folderId: ${{ secrets.folderID }}
           mirrorDirectoryStructure: "true"
           overwrite: "true"

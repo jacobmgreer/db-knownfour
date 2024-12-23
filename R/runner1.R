@@ -4,6 +4,7 @@ options(readr.show_col_types = FALSE)
 options(warn=-1)
 
 dir.create("KF4", showWarnings = F)
+dir.create("KF4/basics", showWarnings = F)
 dir.create("KF4/titles", showWarnings = F)
 dir.create("KF4/people", showWarnings = F)
 
@@ -59,7 +60,7 @@ write_parquet(
   imdb_names %>%
     filter(primaryProfession == "\\N") %>%
     reframe(nconst, QID), 
-  "KF4/unknown_profession.parquet")
+  "KF4/basics/unknown_profession.parquet")
 
 ## Create KnownFor3 Profession Summary
 
@@ -67,7 +68,7 @@ write_parquet(
   imdb_names %>%
     reframe(nconst, QID, knownForProfession = primaryProfession) %>%
     separate_longer_delim(knownForProfession, delim = ","), 
-  "KF4/KF3.parquet")
+  "KF4/basics/KF3.parquet")
 
 ## KF3 Profession Summary
 
@@ -79,7 +80,7 @@ write_parquet(
       nQID = n_distinct(nconst[!is.na(QID)]),
       per_nQID = round(nQID / n * 100, digits = 2)
     ), 
-  "KF4/profession_count.parquet")
+  "KF4/basics/profession_count.parquet")
 
 message(format(Sys.time(), '%H:%M:%S'), " - ", "Created KF3 Professions")
 
@@ -100,7 +101,7 @@ write_parquet(
   imdb_basics %>%
     filter(!tconst %in% KF4_content$knownForTitles) %>% 
     reframe(tconst, iType, iYear, isAdult, QID), 
-  "KF4/unknown_for.parquet")
+  "KF4/basics/unknown_for.parquet")
 
 message(format(Sys.time(), '%H:%M:%S'), " - ", "Created Unknown Content")
 
