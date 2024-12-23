@@ -1,0 +1,66 @@
+name: Known Four
+on:
+  schedule:
+    - cron: "0 2 */3 * *"
+  workflow_dispatch:
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  generate-data:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+            use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          cache-version: 2
+          extra-packages: |
+            any::tidyverse
+            any::arrow
+      - name: "Known Fours Step 1"
+        run: Rscript 'R/runner1.R'
+      - name: Upload to Google Drive
+        uses: adityak74/google-drive-upload-git-action@main
+        with:
+          credentials: ${{ secrets.DRIVE_CREDENTIALS }}
+          filename: "parquet/step1/**"
+          folderId: ${{ secrets.folderID }}
+          overwrite: "true"
+      - name: "Known Fours Step 2"
+        run: Rscript 'R/runner2.R'
+      - name: Upload to Google Drive
+        uses: adityak74/google-drive-upload-git-action@main
+        with:
+          credentials: ${{ secrets.DRIVE_CREDENTIALS }}
+          filename: "parquet/step2/**"
+          folderId: ${{ secrets.folderID }}
+          overwrite: "true"
+      - name: "Known Fours Step 3"
+        run: Rscript 'R/runner3.R'
+      - name: Upload to Google Drive
+        uses: adityak74/google-drive-upload-git-action@main
+        with:
+          credentials: ${{ secrets.DRIVE_CREDENTIALS }}
+          filename: "parquet/step3/**"
+          folderId: ${{ secrets.folderID }}
+          overwrite: "true"
+  del_runs:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: read
+    steps:
+      - name: Delete workflow runs
+        uses: Mattraks/delete-workflow-runs@v2.0.6
+        with:
+          token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          retain_days: 14
+          keep_minimum_runs: 6

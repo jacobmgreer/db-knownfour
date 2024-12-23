@@ -1,0 +1,6 @@
+* linguist-vendored
+*.R linguist-vendored=false
+*.sparql linguist-vendored=false
+*.webarchive linguist-generated
+*.csv linguist-generated
+*.html linguist-generated
