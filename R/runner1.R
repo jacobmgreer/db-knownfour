@@ -72,7 +72,7 @@ write_parquet(
 ## KF3 Profession Summary
 
 write_parquet(
-  KF3_professions %>%
+  read_parquet("KF4/KF3.parquet") %>%
     group_by(knownForProfession) %>%
     summarize(
       n = n(),
