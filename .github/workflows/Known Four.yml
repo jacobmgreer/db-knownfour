@@ -33,24 +33,6 @@ jobs:
           filename: "parquet/step1/**"
           folderId: ${{ secrets.folderID }}
           overwrite: "true"
-      - name: "Known Fours Step 2"
-        run: Rscript 'R/runner2.R'
-      - name: Upload to Google Drive
-        uses: adityak74/google-drive-upload-git-action@main
-        with:
-          credentials: ${{ secrets.DRIVE_CREDENTIALS }}
-          filename: "parquet/step2/**"
-          folderId: ${{ secrets.folderID }}
-          overwrite: "true"
-      - name: "Known Fours Step 3"
-        run: Rscript 'R/runner3.R'
-      - name: Upload to Google Drive
-        uses: adityak74/google-drive-upload-git-action@main
-        with:
-          credentials: ${{ secrets.DRIVE_CREDENTIALS }}
-          filename: "parquet/step3/**"
-          folderId: ${{ secrets.folderID }}
-          overwrite: "true"
   del_runs:
     runs-on: ubuntu-latest
     permissions:
