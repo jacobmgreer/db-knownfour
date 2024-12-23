@@ -30,7 +30,7 @@ jobs:
         uses: adityak74/google-drive-upload-git-action@main
         with:
           credentials: ${{ secrets.DRIVE_CREDENTIALS }}
-          filename: "parquet/step1/**"
+          filename: "KF4/**"
           folderId: ${{ secrets.folderID }}
           mirrorDirectoryStructure: "true"
           overwrite: "true"
@@ -45,5 +45,5 @@ jobs:
         with:
           token: ${{ github.token }}
           repository: ${{ github.repository }}
-          retain_days: 14
-          keep_minimum_runs: 6
+          retain_days: 5
+          keep_minimum_runs: 4

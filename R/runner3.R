@@ -5,15 +5,6 @@ options(warn=-1)
 
 ## Generate knownFour dataset
 
-wd_imdb_people <-
-  readRDS(url("https://jacobmgreer.github.io/Nitrate-Datasets/datasets/people/wd_imdb_people.rds")) %>%
-  group_by(nconst = imdb) %>%
-  summarize(QID = paste(unique(QID), collapse = " || "))
-
-review_KF4 <-
-  read_parquet("parquet/step2/KF4.parquet") %>%
-  left_join(wd_imdb_people, by = "nconst")
-
 review_KF4_decades <-
   review_KF4 %>%
   separate_longer_delim(iYears, delim = ",") %>%
