@@ -32,6 +32,7 @@ jobs:
           credentials: ${{ secrets.DRIVE_CREDENTIALS }}
           filename: "parquet/step1/**"
           folderId: ${{ secrets.folderID }}
+          mirrorDirectoryStructure: "true"
           overwrite: "true"
   del_runs:
     runs-on: ubuntu-latest
